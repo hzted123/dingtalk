@@ -1,0 +1,22 @@
+{
+    "name": "hzted123/dingtalk",
+    "description": "钉钉api工具",
+    "type": "library",
+    "keywords": ["dingtalk"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "songming",
+            "email": "hzted123@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "guzzlehttp/guzzle": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "hzted123\\dingtalk\\": ""
+        }
+    }
+}
