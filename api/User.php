@@ -33,14 +33,10 @@ class User extends Base
      * @return array 数组中结构参看相应数据实体类
      * @see \hzted123\dingtalk\entity\User []
      */
-    public static function query($deptId)
+    public static function query($deptId, $offset = 0, $size = 20)
     {
-        $data = self::doGet(self::API_LIST, ['department_id' => $deptId]);
-        if ($data === false || empty($data['userlist'])) {
-            return [];
-        }
-
-        return $data['userlist'];
+        $data = self::doGet(self::API_LIST, ['department_id' => $deptId, 'offset' => $offset, 'size' => $size]);
+        return $data;
     }
 
     /**
@@ -50,14 +46,10 @@ class User extends Base
      * @return array 数组中结构参看相应数据实体类 只返回其中的 userid name active
      * @see \hzted123\dingtalk\entity\User []
      */
-    public static function querySimple($deptId)
+    public static function querySimple($deptId, $offset = 0, $size = 20)
     {
-        $data = self::doGet(self::API_LIST_SIMPLE, ['department_id' => $deptId]);
-        if ($data === false || empty($data['userlist'])) {
-            return [];
-        }
-
-        return $data['userlist'];
+        $data = self::doGet(self::API_LIST_SIMPLE, ['department_id' => $deptId, 'offset' => $offset, 'size' => $size]);
+        return $data;
     }
 
     /**

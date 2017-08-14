@@ -15,8 +15,8 @@ class DingDingAPI
 {
     const TOKEN_CACHE = 'dingtalk_access_token_';
     const BASE_URL = "https://oapi.dingtalk.com/";
-    public $corp_id = 'ding167368e0b860e81735c2f4657eb6378f';
-    public $corp_secret = 'x-g8gtTMEwNqGNL1K8fbMVKg3rcRX-zG_SgCv2irFFXHpXmrIXEp1YxN0qUwRexR';
+    public $corp_id = '';
+    public $corp_secret = '';
     public $access_token;
     public $debug = false;
     public $proxy = false; //代理 proxy.lcbcorp.com:8080
