@@ -2,7 +2,7 @@
     "name": "hzted123/dingtalk",
     "description": "钉钉api工具",
     "type": "library",
-    "keywords": ["dingtalk"],
+    "keywords": ["dingtalk", "yii2"],
     "license": "MIT",
     "authors": [
         {
