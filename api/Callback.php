@@ -25,6 +25,7 @@ class Callback extends Base
         'org_dept_create'   => 'org_dept_create',
         'org_dept_modify'   => 'org_dept_modify',
         'org_dept_remove'   => 'org_dept_remove',
+        'org_change'        => 'org_change',
         'org_remove'        => 'org_remove',
         'label_user_change' => 'label_user_change',
         'label_conf_add'    => 'label_conf_add',
@@ -37,6 +38,8 @@ class Callback extends Base
         'chat_update_title'     => 'chat_update_title',
         'chat_disband'          => 'chat_disband',
         'chat_disband_microapp' => 'chat_disband_microapp',
+        'bpms_task_change' => 'bpms_task_change',           //审批任务
+        'bpms_instance_change' => 'bpms_instance_change',   //审批实例
     ];
 
     const API_LIST = '/call_back/get_call_back';
@@ -46,24 +49,20 @@ class Callback extends Base
     const API_DELETE = '/call_back/delete_call_back';
     const API_FAILED_RESULT_GET = '/call_back/get_call_back_failed_result';
 
-    private $aesKey;
-    private $token;
-
-    function __construct($aesKey = '', $token = '')
-    {
-        $this->aesKey = $aesKey;
-        $this->token = $token;
-    }
-
     /**
      * 注册回调接口
      *
      * @url 回调地址
      * @event 事件数组，如['user_add_org', 'user_modify_org']
      */
-    public function register($url, $event)
+    public static function register($url, $event)
     {
-        $data = self::doPost(self::API_REGISTER, ['url' => $url, 'call_back_tag' => $event, 'aes_key' => $this->aesKey, 'token' => $this->token]);
+        $data = self::doPost(self::API_REGISTER, [
+            'url'           => $url,
+            'call_back_tag' => $event,
+            'aes_key'       => \Yii::$app->dingtalk_crtpy->m_encodingAesKey,
+            'token'         => \Yii::$app->dingtalk_crtpy->m_token,
+        ]);
         return $data;
     }
 
@@ -72,7 +71,7 @@ class Callback extends Base
      *
      * @return array|bool|mixed
      */
-    public function get()
+    public static function get()
     {
         $data = self::doGet(self::API_GET);
         return $data;
@@ -85,9 +84,14 @@ class Callback extends Base
      * @param $event
      * @return array|bool|mixed
      */
-    public function update($url, $event)
+    public static function update($url, $event)
     {
-        $data = self::doPost(self::API_REGISTER, ['url' => $url, 'call_back_tag' => $event, 'aes_key' => $this->aesKey, 'token' => $this->token]);
+        $data = self::doPost(self::API_REGISTER, [
+            'url'           => $url,
+            'call_back_tag' => $event,
+            'aes_key'       => \Yii::$app->dingtalk_crtpy->m_encodingAesKey,
+            'token'         => \Yii::$app->dingtalk_crtpy->m_token,
+        ]);
         return $data;
 
     }
@@ -97,7 +101,7 @@ class Callback extends Base
      *
      * @return array|bool|mixed
      */
-    public function delete()
+    public static function delete()
     {
         $data = self::doGet(self::API_DELETE);
         return $data;
