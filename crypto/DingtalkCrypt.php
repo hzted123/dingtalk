@@ -34,12 +34,12 @@ class DingtalkCrypt
             return $ret;
         }
         $signature = $array[1];
-        $encryptMsg = json_encode([
+        $encryptMsg = [
             "msg_signature" => $signature,
             "encrypt"       => $encrypt,
             "timeStamp"     => $timeStamp,
             "nonce"         => $nonce,
-        ]);
+        ];
         return ErrorCode::$OK;
     }
 
