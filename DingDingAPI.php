@@ -155,7 +155,7 @@ class DingDingAPI
             //            return ['status' => false, 'reason' => '接口返回格式异常, 无 errcode'];
         }
 
-        if ($result['errcode'] == 40091) { //用户授权码创建失败,需要用户重新授权
+        if ($result['errcode'] == 40091 || $result['errcode'] == 40014) { //用户授权码创建失败,或者是不合法的token,需要用户重新授权
             Yii::warning($result['errmsg']."\n".$msg_info, __METHOD__.'.'.$route);
             //清空access_token缓存
             $this->clearAccessToken();
@@ -175,13 +175,21 @@ class DingDingAPI
     }
 
     public function checkAccessToken(){
-        if ($this->access_token === null) {
-            $this->access_token = Yii::$app->cache->get(self::TOKEN_CACHE.$this->corp_secret);
-        }
-
-        if ($this->access_token) {
+        //每次的返回都从cache中获取
+        //在listener中,一旦access_token存在于当前进程的内存中,就始终存在
+        //如果其他进程更新,也无法更新此进程内的数据
+        $access_token = Yii::$app->cache->get(self::TOKEN_CACHE.$this->corp_secret);
+        if ($access_token !== false) {
+            $this->access_token = $access_token;
             return $this->access_token;
         }
+//        if ($this->access_token === null) {
+//            $this->access_token = Yii::$app->cache->get(self::TOKEN_CACHE.$this->corp_secret);
+//        }
+//
+//        if ($this->access_token) {
+//            return $this->access_token;
+//        }
 
         $route = 'gettoken';
         $params = [
